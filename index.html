@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/flash_card.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flash Card</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Flash Card</h1>
+      <div class="card-container">
+        <div class="card" id="flashcard">
+          <div class="card-front">
+            <h2 id="word">Word</h2>
+          </div>
+          <div class="card-back">
+            <p id="definition">Definition</p>
+            <p id="example">Example Sentence</p>
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="prevBtn">Previous</button>
+        <button id="flipBtn">Flip</button>
+        <button id="nextBtn">Next</button>
+      </div>
+      <div class="review-controls">
+        <button id="markKnown">Mark as Known</button>
+        <button id="markLearning">Mark as Learning</button>
+      </div>
+      <div class="progress">
+        <span id="currentCard">1</span> / <span id="totalCards">5</span>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
