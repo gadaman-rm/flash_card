@@ -45,6 +45,17 @@ export class MainPage {
     }
   }
 
+  private async saveVocabularyToCSV(): Promise<void> {
+    try {
+      const csvContent = vocabulary
+        .map(vocab => `${vocab.word},${vocab.definition},${vocab.example},${vocab.status}`)
+        .join('\n');
+      await fileApi.writeFile('vocabulary.csv', csvContent);
+    } catch (error) {
+      console.error('Error saving vocabulary:', error);
+    }
+  }
+
   private updateCard(): void {
     if (vocabulary.length === 0) return;
     
@@ -115,21 +126,23 @@ export class MainPage {
 
       if (markKnownBtn!.dataset.eventListenerAdded !== 'true') {
         markKnownBtn.dataset.eventListenerAdded = 'true';
-        resourceManager.registerEventListener(markKnownBtn, 'click', () => {
+        resourceManager.registerEventListener(markKnownBtn, 'click', async () => {
           vocabulary[currentIndex].status = 'known';
           markKnownBtn.classList.add('marked', 'marked-animation');
           markLearningBtn.classList.remove('marked', 'marked-animation');
           setTimeout(() => markKnownBtn.classList.remove('marked-animation'), 300);
+          await this.saveVocabularyToCSV();
         });
       }
 
       if (markLearningBtn!.dataset.eventListenerAdded !== 'true') {
         markLearningBtn.dataset.eventListenerAdded = 'true';
-        resourceManager.registerEventListener(markLearningBtn, 'click', () => {
+        resourceManager.registerEventListener(markLearningBtn, 'click', async () => {
           vocabulary[currentIndex].status = 'learning';
           markLearningBtn.classList.add('marked', 'marked-animation');
-          markLearningBtn.classList.remove('marked', 'marked-animation');
+          markKnownBtn.classList.remove('marked', 'marked-animation');
           setTimeout(() => markLearningBtn.classList.remove('marked-animation'), 300);
+          await this.saveVocabularyToCSV();
         });
       }
     }
