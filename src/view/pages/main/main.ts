@@ -38,6 +38,9 @@ export class MainPage {
           };
         });
 
+      // Load status data
+      await this.loadStatusData();
+
       // Update the UI with the loaded vocabulary
       this.updateCard();
     } catch (error) {
@@ -45,14 +48,45 @@ export class MainPage {
     }
   }
 
-  private async saveVocabularyToCSV(): Promise<void> {
+  private async loadStatusData(): Promise<void> {
     try {
-      const csvContent = vocabulary
-        .map(vocab => `${vocab.word},${vocab.definition},${vocab.example},${vocab.status}`)
-        .join('\n');
-      await fileApi.writeFile('vocabulary.csv', csvContent);
+      const statusContent = await fileApi.readFile('vocabulary_status.csv');
+      if (!statusContent) {
+        return; // No status file exists yet, which is fine
+      }
+
+      // Parse status CSV content
+      const statusMap = new Map<string, 'unknown' | 'learning' | 'known'>();
+      const lines = statusContent.split('\n');
+      lines
+        .filter(line => line.trim())
+        .forEach(line => {
+          const [word, status] = line.split(',').map(field => field.trim());
+          if (word && status) {
+            statusMap.set(word, status as 'unknown' | 'learning' | 'known');
+          }
+        });
+
+      // Update vocabulary status
+      vocabulary.forEach(vocab => {
+        const savedStatus = statusMap.get(vocab.word);
+        if (savedStatus) {
+          vocab.status = savedStatus;
+        }
+      });
     } catch (error) {
-      console.error('Error saving vocabulary:', error);
+      console.error('Error loading status data:', error);
+    }
+  }
+
+  private async saveStatusToCSV(): Promise<void> {
+    try {
+      const statusContent = vocabulary
+        .map(vocab => `${vocab.word},${vocab.status}`)
+        .join('\n');
+      await fileApi.writeFile('vocabulary_status.csv', statusContent);
+    } catch (error) {
+      console.error('Error saving status data:', error);
     }
   }
 
@@ -131,7 +165,7 @@ export class MainPage {
           markKnownBtn.classList.add('marked', 'marked-animation');
           markLearningBtn.classList.remove('marked', 'marked-animation');
           setTimeout(() => markKnownBtn.classList.remove('marked-animation'), 300);
-          await this.saveVocabularyToCSV();
+          await this.saveStatusToCSV();
         });
       }
 
@@ -142,7 +176,7 @@ export class MainPage {
           markLearningBtn.classList.add('marked', 'marked-animation');
           markKnownBtn.classList.remove('marked', 'marked-animation');
           setTimeout(() => markLearningBtn.classList.remove('marked-animation'), 300);
-          await this.saveVocabularyToCSV();
+          await this.saveStatusToCSV();
         });
       }
     }

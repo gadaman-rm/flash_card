@@ -22,7 +22,7 @@ router.addRoute('/404', () => {
 });
 
 async function init() {
-  router.navigateTo('/download');
+  router.navigateTo('/');
 }
 
 init();
