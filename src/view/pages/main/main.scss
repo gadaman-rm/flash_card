@@ -1,15 +1,14 @@
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  color: #333;
-}
+@use '../style' as style;
 
 .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.function-container {
   background: white;
   padding: 2rem;
   border-radius: 1rem;
@@ -45,7 +44,8 @@ h1 {
   transform: rotateY(180deg);
 }
 
-.card-front, .card-back {
+.card-front,
+.card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -73,7 +73,8 @@ h1 {
   color: #34495e;
 }
 
-.controls, .review-controls {
+.controls,
+.review-controls {
   display: flex;
   justify-content: center;
   gap: 1rem;
@@ -93,7 +94,8 @@ button:hover {
   transform: scale(1.05);
 }
 
-#prevBtn, #nextBtn {
+#prevBtn,
+#nextBtn {
   background: #3498db;
   color: white;
 }
@@ -103,12 +105,14 @@ button:hover {
   color: white;
 }
 
-#markKnown, #markLearning {
+#markKnown,
+#markLearning {
   background: #e74c3c;
   color: white;
 }
 
-#markKnown.marked, #markLearning.marked {
+#markKnown.marked,
+#markLearning.marked {
   background: #27ae60;
   transform: scale(1.1);
 }
@@ -119,9 +123,15 @@ button:hover {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .marked-animation {
