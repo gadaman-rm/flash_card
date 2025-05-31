@@ -51,4 +51,37 @@
   &:active {
     transform: scale(0.98);
   }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.home-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  color: var(--md-sys-color-on-surface);
+
+  &:hover {
+    background-color: var(--md-sys-color-surface-variant);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 } 
