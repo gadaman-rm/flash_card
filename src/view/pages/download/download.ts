@@ -5,7 +5,7 @@ import resourceManager from '../../../manager/lifecycle/ResourceManager';
 import downloadApi from '../../../api/local/DownloadApi';
 
 export class DownloadPage {
-  private async downloadCSV(fileUrl: string, filename: string): Promise<void> {
+  private async downloadCSV(fileUrl: string): Promise<void> {
     try {
       const response = await downloadApi.download(fileUrl);
       if (!response) {
@@ -17,7 +17,7 @@ export class DownloadPage {
     }
   }
 
-  setup() {}
+  setup() { }
 
   addEventListener() {
     const downloadBtn = document.getElementById('downloadBtn') as HTMLButtonElement;
@@ -35,14 +35,13 @@ export class DownloadPage {
       resourceManager.registerEventListener(downloadBtn, 'click', () => {
         // Replace this URL with your actual CSV file URL
         this.downloadCSV(
-          'https://www.gadapanel.ir/public/vocabulary/vocabulary.csv',
-          'vocabulary.csv'
+          'https://www.gadapanel.ir/public/vocabulary/vocabulary.csv'
         );
       });
     }
   }
 
-  firstLoad() {}
+  firstLoad() { }
 
   load() {
     const page = html`
