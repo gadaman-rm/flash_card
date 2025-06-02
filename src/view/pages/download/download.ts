@@ -55,11 +55,11 @@ export class DownloadPage {
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
               </svg>
             </button>
-            <h1>Download Vocabulary</h1>
+            <h1>Download</h1>
           </div>
           <div class="download-section">
-            <p>Click the button below to download your vocabulary list as a CSV file.</p>
-            <button id="downloadBtn" class="download-button">Download Vocabulary CSV</button>
+            <p>Click the button below to download your list as a CSV file.</p>
+            <button id="downloadBtn" class="download-button">Download CSV</button>
           </div>
         </div>
       </div>

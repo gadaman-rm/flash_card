@@ -36,10 +36,10 @@ export class MainPage {
     load() {
         const page = html`
             <div class="main-container">
-                <h1>Welcome to Flash Card App</h1>
+                <h1>Flash Card App</h1>
                 <div class="button-container">
-                    <button>Go to Flash Cards</button>
-                    <button>Go to Downloads</button>
+                    <button>Flash Cards</button>
+                    <button>Downloads</button>
                 </div>
             </div>
         `;

@@ -18,13 +18,18 @@
   .button-container {
     display: flex;
     gap: 1rem;
+    width: 100vw;
+    justify-content: center;
+    flex-wrap: wrap;
 
     button {
-      padding: 1rem 2rem;
+      width: 300px;
+      padding: 1rem;
+      margin: 1rem;
       font-size: 1.1rem;
       border: none;
       border-radius: 8px;
-      background-color: #4CAF50;
+      background-color: #4caf50;
       color: white;
       cursor: pointer;
       transition: background-color 0.3s ease;
@@ -38,4 +43,4 @@
       }
     }
   }
-} 
+}
