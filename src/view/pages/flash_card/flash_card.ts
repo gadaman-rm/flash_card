@@ -227,7 +227,7 @@ export class FlashCardPage {
           <div class="review-controls">
             <button id="markKnown">Known</button>
             <button id="markLearning">Learning</button>
-          </div>ّ
+          </div>
           <div class="progress">
             <span id="currentCard">1</span> / <span id="totalCards">5</span>
           </div>
