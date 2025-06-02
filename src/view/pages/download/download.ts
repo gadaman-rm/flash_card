@@ -3,6 +3,7 @@ import { html, render } from 'lit';
 import '@material/web/all';
 import resourceManager from '../../../manager/lifecycle/ResourceManager';
 import downloadApi from '../../../api/local/DownloadApi';
+import { router } from '../../../Router';
 
 export class DownloadPage {
   private async downloadCSV(fileUrl: string): Promise<void> {
@@ -26,7 +27,7 @@ export class DownloadPage {
     if (homeBtn!.dataset.eventListenerAdded !== 'true') {
       homeBtn.dataset.eventListenerAdded = 'true';
       resourceManager.registerEventListener(homeBtn, 'click', () => {
-        window.location.href = '/';
+        router.navigateTo('/');
       });
     }
 

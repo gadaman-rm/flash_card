@@ -3,6 +3,7 @@ import { html, render } from 'lit';
 import '@material/web/all';
 import resourceManager from '../../../manager/lifecycle/ResourceManager';
 import fileApi from '../../../api/local/FileApi';
+import { router } from '../../../Router';
 
 interface Vocabulary {
   word: string;
@@ -18,7 +19,7 @@ let isFlipped = false;
 export class FlashCardPage {
   private async loadVocabularyFromCSV(): Promise<void> {
     try {
-      const csvContent = await fileApi.readFile('vocabulary.csv');
+      const csvContent = await fileApi.readFile('vocabulary.csv', "./");
       if (!csvContent) {
         console.error('Failed to read vocabulary.csv');
         return;
@@ -50,7 +51,7 @@ export class FlashCardPage {
 
   private async loadStatusData(): Promise<void> {
     try {
-      const statusContent = await fileApi.readFile('vocabulary_status.csv');
+      const statusContent = await fileApi.readFile('vocabulary_status.csv', "./");
       if (!statusContent) {
         return; // No status file exists yet, which is fine
       }
@@ -84,7 +85,7 @@ export class FlashCardPage {
       const statusContent = vocabulary
         .map(vocab => `${vocab.word},${vocab.status}`)
         .join('\n');
-      await fileApi.writeFile('vocabulary_status.csv', statusContent);
+      await fileApi.writeFile('vocabulary_status.csv', statusContent, "./");
     } catch (error) {
       console.error('Error saving status data:', error);
     }
@@ -92,14 +93,14 @@ export class FlashCardPage {
 
   private updateCard(): void {
     if (vocabulary.length === 0) return;
-    
+
     const wordElement = document.getElementById('word') as HTMLElement;
     const definitionElement = document.getElementById('definition') as HTMLElement;
     const exampleElement = document.getElementById('example') as HTMLElement;
     const flashcard = document.getElementById('flashcard') as HTMLElement;
     const currentCardElement = document.getElementById('currentCard') as HTMLElement;
     const totalCardsElement = document.getElementById('totalCards') as HTMLElement;
-    
+
     const vocab = vocabulary[currentIndex];
     wordElement.textContent = vocab.word;
     definitionElement.textContent = vocab.definition;
@@ -113,7 +114,7 @@ export class FlashCardPage {
 
   private updateReviewButtons(): void {
     if (vocabulary.length === 0) return;
-    
+
     const markKnownBtn = document.getElementById('markKnown') as HTMLElement;
     const markLearningBtn = document.getElementById('markLearning') as HTMLElement;
     const vocab = vocabulary[currentIndex];
@@ -121,7 +122,7 @@ export class FlashCardPage {
     markLearningBtn.classList.toggle('marked', vocab.status === 'learning');
   }
 
-  setup() {}
+  setup() { }
 
   addEventListener() {
     const flashcard = document.getElementById('flashcard') as HTMLElement;
@@ -135,7 +136,7 @@ export class FlashCardPage {
     if (homeBtn!.dataset.eventListenerAdded !== 'true') {
       homeBtn.dataset.eventListenerAdded = 'true';
       resourceManager.registerEventListener(homeBtn, 'click', () => {
-        window.location.href = '/';
+        router.navigateTo('/');
       });
     }
 
@@ -193,7 +194,7 @@ export class FlashCardPage {
   firstLoad() {
     this.loadVocabularyFromCSV();
   }
-  
+
   load() {
     const page = html`
       <div class="container">
