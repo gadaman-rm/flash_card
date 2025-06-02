@@ -225,6 +225,30 @@ export class FlashCardPage {
         }
       });
 
+      const goToCardBtn = document.getElementById('goToCardBtn') as HTMLButtonElement;
+      const cardNumberInput = document.getElementById('cardNumberInput') as HTMLInputElement;
+
+      if (goToCardBtn!.dataset.eventListenerAdded !== 'true') {
+        goToCardBtn.dataset.eventListenerAdded = 'true';
+        resourceManager.registerEventListener(goToCardBtn, 'click', () => {
+          const targetCard = parseInt(cardNumberInput.value);
+          if (!isNaN(targetCard) && targetCard >= 1 && targetCard <= vocabulary.length) {
+            if (isFlipped) {
+              isFlipped = false;
+              flashcard.classList.remove('flipped');
+              setTimeout(() => {
+                currentIndex = targetCard - 1;
+                this.updateCard();
+              }, 500);
+            } else {
+              currentIndex = targetCard - 1;
+              this.updateCard();
+            }
+          }
+          cardNumberInput.value = '';
+        });
+      }
+
       const prevLearningBtn = document.getElementById('prevLearningBtn') as HTMLButtonElement;
       const nextLearningBtn = document.getElementById('nextLearningBtn') as HTMLButtonElement;
 
@@ -316,12 +340,16 @@ export class FlashCardPage {
             <button id="nextBtn" class="control-button">Next</button>
           </div>
           <div class="learning-navigation">
-            <button id="prevLearningBtn" class="learning-nav-button">Prev Learning</button>
-            <button id="nextLearningBtn" class="learning-nav-button">Next Learning</button>
+            <button id="prevLearningBtn" class="learning-nav-button"><< Learning</button>
+            <button id="nextLearningBtn" class="learning-nav-button">Learning >></button>
           </div>
           <div class="review-controls">
             <button id="markKnown" class="review-button">Known</button>
             <button id="markLearning" class="review-button">Learning</button>
+          </div>
+          <div class="go-to-card">
+            <input type="number" id="cardNumberInput" min="1" placeholder="Card #" />
+            <button id="goToCardBtn" class="control-button">Go to Card</button>
           </div>
           <div class="progress">
             <span id="currentCard">1</span> / <span id="totalCards">5</span>

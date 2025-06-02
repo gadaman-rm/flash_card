@@ -222,3 +222,49 @@
     animation: fadeIn 0.3s ease-in-out forwards;
   }
 }
+
+.go-to-card {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 10px 0;
+
+  input[type="number"] {
+    border: 2px solid #ccc;
+    border-radius: .5rem;
+    text-align: center;
+    width: 150px;
+    height: 45px;
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+
+
+    /* Hide number input spinners */
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    -moz-appearance: textfield; /* Firefox */
+
+
+    @media screen and (max-width: 768px) {
+      width: 130px;
+      height: 40px;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+    }
+
+    @media screen and (max-width: 480px) {
+      width: 110px;
+      height: 35px;
+      font-size: 0.8rem;
+      padding: 0.5rem 1rem;
+    }
+
+  }
+
+  button {
+    @extend .base-button;
+  }
+}
