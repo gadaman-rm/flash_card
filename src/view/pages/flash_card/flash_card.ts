@@ -167,6 +167,39 @@ export class FlashCardPage {
         }
       });
 
+      const prevLearningBtn = document.getElementById('prevLearningBtn') as HTMLButtonElement;
+      const nextLearningBtn = document.getElementById('nextLearningBtn') as HTMLButtonElement;
+
+      if (prevLearningBtn!.dataset.eventListenerAdded !== 'true') {
+        prevLearningBtn.dataset.eventListenerAdded = 'true';
+        resourceManager.registerEventListener(prevLearningBtn, 'click', () => {
+          let newIndex = currentIndex;
+          while (newIndex > 0) {
+            newIndex--;
+            if (vocabulary[newIndex].status === 'learning') {
+              currentIndex = newIndex;
+              this.updateCard();
+              break;
+            }
+          }
+        });
+      }
+
+      if (nextLearningBtn!.dataset.eventListenerAdded !== 'true') {
+        nextLearningBtn.dataset.eventListenerAdded = 'true';
+        resourceManager.registerEventListener(nextLearningBtn, 'click', () => {
+          let newIndex = currentIndex;
+          while (newIndex < vocabulary.length - 1) {
+            newIndex++;
+            if (vocabulary[newIndex].status === 'learning') {
+              currentIndex = newIndex;
+              this.updateCard();
+              break;
+            }
+          }
+        });
+      }
+
       if (markKnownBtn!.dataset.eventListenerAdded !== 'true') {
         markKnownBtn.dataset.eventListenerAdded = 'true';
         resourceManager.registerEventListener(markKnownBtn, 'click', async () => {
@@ -223,6 +256,10 @@ export class FlashCardPage {
             <button id="prevBtn">Previous</button>
             <button id="flipBtn">Flip</button>
             <button id="nextBtn">Next</button>
+          </div>
+          <div class="learning-navigation">
+            <button id="prevLearningBtn">Previous Learning</button>
+            <button id="nextLearningBtn">Next Learning</button>
           </div>
           <div class="review-controls">
             <button id="markKnown">Known</button>
