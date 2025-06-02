@@ -73,10 +73,10 @@
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s;
-    color: var(--md-sys-color-on-surface);
+    color: #2c3e50;
 
     &:hover {
-      background-color: var(--md-sys-color-surface-variant);
+      background-color: #f0f0f0;
     }
 
     svg {

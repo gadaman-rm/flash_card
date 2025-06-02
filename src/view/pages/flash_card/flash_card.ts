@@ -105,6 +105,14 @@ export class FlashCardPage {
     wordElement.textContent = vocab.word;
     definitionElement.textContent = vocab.definition;
     exampleElement.textContent = vocab.example;
+    
+    // Hide example element if it's empty
+    if (!vocab.example || vocab.example.trim() === '') {
+      exampleElement.style.display = 'none';
+    } else {
+      exampleElement.style.display = 'block';
+    }
+
     currentCardElement.textContent = (currentIndex + 1).toString();
     totalCardsElement.textContent = vocabulary.length.toString();
     isFlipped = false;
@@ -247,23 +255,23 @@ export class FlashCardPage {
                 <h2 id="word">Word</h2>
               </div>
               <div class="card-back">
-                <p id="definition">Definition</p>
-                <p id="example">Example Sentence</p>
+                  <h2 id="definition" class="definition">Definition</h2>
+                  <p id="example" class="example">Example Sentence</p>
               </div>
             </div>
           </div>
           <div class="controls">
-            <button id="prevBtn">Previous</button>
-            <button id="flipBtn">Flip</button>
-            <button id="nextBtn">Next</button>
+            <button id="prevBtn" class="control-button">Previous</button>
+            <button id="flipBtn" class="control-button">Flip</button>
+            <button id="nextBtn" class="control-button">Next</button>
           </div>
           <div class="learning-navigation">
-            <button id="prevLearningBtn">Previous Learning</button>
-            <button id="nextLearningBtn">Next Learning</button>
+            <button id="prevLearningBtn" class="learning-nav-button">Prev Learning</button>
+            <button id="nextLearningBtn" class="learning-nav-button">Next Learning</button>
           </div>
           <div class="review-controls">
-            <button id="markKnown">Known</button>
-            <button id="markLearning">Learning</button>
+            <button id="markKnown" class="review-button">Known</button>
+            <button id="markLearning" class="review-button">Learning</button>
           </div>
           <div class="progress">
             <span id="currentCard">1</span> / <span id="totalCards">5</span>
