@@ -1,87 +1,87 @@
-.container {
+.download-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-}
 
-.function-container {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  width: 100%;
-  text-align: center;
+  .function-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
 
-  h1 {
-    color: #333;
+    h1 {
+      color: #333;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .download-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+
+    p {
+      color: #666;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+  }
+
+  .download-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #45a049;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 2rem;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .home-button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    color: var(--md-sys-color-on-surface);
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-variant);
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
-
-.download-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-
-  p {
-    color: #666;
-    font-size: 1.1rem;
-    line-height: 1.5;
-  }
-}
-
-.download-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #45a049;
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-
-  h1 {
-    margin: 0;
-  }
-}
-
-.home-button {
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-  color: var(--md-sys-color-on-surface);
-
-  &:hover {
-    background-color: var(--md-sys-color-surface-variant);
-  }
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-} 

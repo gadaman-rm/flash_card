@@ -230,7 +230,7 @@ export class FlashCardPage {
 
   load() {
     const page = html`
-      <div class="container">
+      <div class="flash-card-container">
         <div class="function-container">
           <div class="header">
             <button id="homeBtn" class="home-button" title="Go to Home">
