@@ -101,23 +101,47 @@ export class FlashCardPage {
     const currentCardElement = document.getElementById('currentCard') as HTMLElement;
     const totalCardsElement = document.getElementById('totalCards') as HTMLElement;
 
-    const vocab = vocabulary[currentIndex];
-    wordElement.textContent = vocab.word;
-    definitionElement.textContent = vocab.definition;
-    exampleElement.textContent = vocab.example;
-    
-    // Hide example element if it's empty
-    if (!vocab.example || vocab.example.trim() === '') {
-      exampleElement.style.display = 'none';
-    } else {
-      exampleElement.style.display = 'block';
-    }
+    // Add fade-out animation
+    wordElement.classList.add('fade-out');
+    definitionElement.classList.add('fade-out');
+    exampleElement.classList.add('fade-out');
 
-    currentCardElement.textContent = (currentIndex + 1).toString();
-    totalCardsElement.textContent = vocabulary.length.toString();
-    isFlipped = false;
-    flashcard.classList.remove('flipped');
-    this.updateReviewButtons();
+    // Wait for fade-out to complete before updating content
+    setTimeout(() => {
+      const vocab = vocabulary[currentIndex];
+      wordElement.textContent = vocab.word;
+      definitionElement.textContent = vocab.definition;
+      exampleElement.textContent = vocab.example;
+
+      // Hide example element if it's empty
+      if (!vocab.example || vocab.example.trim() === '') {
+        exampleElement.style.display = 'none';
+      } else {
+        exampleElement.style.display = 'block';
+      }
+
+      currentCardElement.textContent = (currentIndex + 1).toString();
+      totalCardsElement.textContent = vocabulary.length.toString();
+      isFlipped = false;
+      flashcard.classList.remove('flipped');
+
+      // Remove fade-out and add fade-in animation
+      wordElement.classList.remove('fade-out');
+      definitionElement.classList.remove('fade-out');
+      exampleElement.classList.remove('fade-out');
+      wordElement.classList.add('fade-in');
+      definitionElement.classList.add('fade-in');
+      exampleElement.classList.add('fade-in');
+
+      // Remove fade-in class after animation completes
+      setTimeout(() => {
+        wordElement.classList.remove('fade-in');
+        definitionElement.classList.remove('fade-in');
+        exampleElement.classList.remove('fade-in');
+      }, 300);
+
+      this.updateReviewButtons();
+    }, 300);
   }
 
   private updateReviewButtons(): void {
@@ -159,9 +183,20 @@ export class FlashCardPage {
     if (prevBtn!.dataset.eventListenerAdded !== 'true') {
       prevBtn.dataset.eventListenerAdded = 'true';
       resourceManager.registerEventListener(prevBtn, 'click', () => {
-        if (currentIndex > 0) {
-          currentIndex--;
-          this.updateCard();
+        if (isFlipped) {
+          isFlipped = false;
+          flashcard.classList.remove('flipped');
+          setTimeout(() => {
+            if (currentIndex > 0) {
+              currentIndex--;
+              this.updateCard();
+            }
+          }, 500);
+        } else {
+          if (currentIndex > 0) {
+            currentIndex--;
+            this.updateCard();
+          }
         }
       });
     }
@@ -170,8 +205,23 @@ export class FlashCardPage {
       nextBtn.dataset.eventListenerAdded = 'true';
       resourceManager.registerEventListener(nextBtn, 'click', () => {
         if (currentIndex < vocabulary.length - 1) {
-          currentIndex++;
-          this.updateCard();
+          // Unflip the card if it's flipped
+          if (isFlipped) {
+            isFlipped = false;
+            flashcard.classList.remove('flipped');
+            // Wait for the flip animation to complete (300ms) before moving to next card
+            setTimeout(() => {
+              if (currentIndex < vocabulary.length - 1) {
+                currentIndex++;
+                this.updateCard();
+              }
+            }, 500);
+          } else {
+            if (currentIndex < vocabulary.length - 1) {
+              currentIndex++;
+              this.updateCard();
+            }
+          }
         }
       });
 

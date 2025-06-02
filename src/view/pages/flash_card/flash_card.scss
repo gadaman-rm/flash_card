@@ -59,16 +59,17 @@
     h2 {
       font-size: 2.5rem;
       color: #2c3e50;
+      transition: opacity 0.3s ease-in-out;
     }
   }
 
   .card-back {
     transform: rotateY(180deg);
-  }
-
-  .card-back p {
-    font-size: 1.2rem;
-    color: #34495e;
+    p {
+      font-size: 1.2rem;
+      color: #34495e;
+      transition: opacity 0.3s ease-in-out;
+    }
   }
 
   .controls,
@@ -201,5 +202,23 @@
     h1 {
       margin: 0;
     }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .fade-out {
+    animation: fadeOut 0.3s ease-in-out forwards;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out forwards;
   }
 }
