@@ -10,6 +10,7 @@ interface Vocabulary {
   definition: string;
   example: string;
   status: 'unknown' | 'learning' | 'known';
+  stars: number; // 1-5, difficulty rating
 }
 
 let vocabulary: Vocabulary[] = [];
@@ -19,7 +20,7 @@ let isFlipped = false;
 export class FlashCardPage {
   private async loadVocabularyFromCSV(): Promise<void> {
     try {
-      const csvContent = await fileApi.readFile('vocabulary.csv', "./");
+      const csvContent = await fileApi.readFile('vocabulary.csv', './');
       if (!csvContent) {
         console.error('Failed to read vocabulary.csv');
         return;
@@ -35,7 +36,8 @@ export class FlashCardPage {
             word,
             definition,
             example,
-            status: 'unknown' as const
+            status: 'unknown' as const,
+            stars: 0, // default to 0 stars
           };
         });
 
@@ -51,28 +53,36 @@ export class FlashCardPage {
 
   private async loadStatusData(): Promise<void> {
     try {
-      const statusContent = await fileApi.readFile('vocabulary_status.csv', "./");
+      const statusContent = await fileApi.readFile('vocabulary_status.csv', './');
       if (!statusContent) {
         return; // No status file exists yet, which is fine
       }
 
       // Parse status CSV content
-      const statusMap = new Map<string, 'unknown' | 'learning' | 'known'>();
+      // Now expects: word,status,stars
+      const statusMap = new Map<
+        string,
+        { status: 'unknown' | 'learning' | 'known'; stars: number }
+      >();
       const lines = statusContent.split('\n');
       lines
         .filter(line => line.trim())
         .forEach(line => {
-          const [word, status] = line.split(',').map(field => field.trim());
+          const [word, status, stars] = line.split(',').map(field => field.trim());
           if (word && status) {
-            statusMap.set(word, status as 'unknown' | 'learning' | 'known');
+            statusMap.set(word, {
+              status: status as 'unknown' | 'learning' | 'known',
+              stars: Number(stars) || 0,
+            });
           }
         });
 
-      // Update vocabulary status
+      // Update vocabulary status and stars
       vocabulary.forEach(vocab => {
-        const savedStatus = statusMap.get(vocab.word);
-        if (savedStatus) {
-          vocab.status = savedStatus;
+        const saved = statusMap.get(vocab.word);
+        if (saved) {
+          vocab.status = saved.status;
+          vocab.stars = saved.stars;
         }
       });
     } catch (error) {
@@ -82,10 +92,11 @@ export class FlashCardPage {
 
   private async saveStatusToCSV(): Promise<void> {
     try {
+      // Save as: word,status,stars
       const statusContent = vocabulary
-        .map(vocab => `${vocab.word},${vocab.status}`)
+        .map(vocab => `${vocab.word},${vocab.status},${vocab.stars}`)
         .join('\n');
-      await fileApi.writeFile('vocabulary_status.csv', statusContent, "./");
+      await fileApi.writeFile('vocabulary_status.csv', statusContent, './');
     } catch (error) {
       console.error('Error saving status data:', error);
     }
@@ -100,6 +111,7 @@ export class FlashCardPage {
     const flashcard = document.getElementById('flashcard') as HTMLElement;
     const currentCardElement = document.getElementById('currentCard') as HTMLElement;
     const totalCardsElement = document.getElementById('totalCards') as HTMLElement;
+    const starsContainer = document.getElementById('starsContainer') as HTMLElement;
 
     // Add fade-out animation
     wordElement.classList.add('fade-out');
@@ -124,6 +136,18 @@ export class FlashCardPage {
       totalCardsElement.textContent = vocabulary.length.toString();
       isFlipped = false;
       flashcard.classList.remove('flipped');
+
+      // Update stars UI
+      if (starsContainer) {
+        starsContainer.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const star = document.createElement('span');
+          star.className = 'star' + (i <= vocab.stars ? ' filled pop' : '');
+          star.textContent = '★';
+          star.setAttribute('data-star', i.toString());
+          starsContainer.appendChild(star);
+        }
+      }
 
       // Remove fade-out and add fade-in animation
       wordElement.classList.remove('fade-out');
@@ -154,7 +178,7 @@ export class FlashCardPage {
     markLearningBtn.classList.toggle('marked', vocab.status === 'learning');
   }
 
-  setup() { }
+  setup() {}
 
   addEventListener() {
     const flashcard = document.getElementById('flashcard') as HTMLElement;
@@ -304,6 +328,24 @@ export class FlashCardPage {
         });
       }
     }
+
+    const starsContainer = document.getElementById('starsContainer');
+
+    // Add event listeners for stars
+    if (starsContainer && starsContainer.dataset.eventListenerAdded !== 'true') {
+      starsContainer.dataset.eventListenerAdded = 'true';
+      starsContainer.addEventListener('click', async e => {
+        const target = e.target as HTMLElement;
+        if (target.classList.contains('star')) {
+          const starValue = Number(target.getAttribute('data-star'));
+          if (!isNaN(starValue)) {
+            vocabulary[currentIndex].stars = starValue;
+            this.updateCard();
+            //await this.saveStatusToCSV();
+          }
+        }
+      });
+    }
   }
 
   firstLoad() {
@@ -316,7 +358,17 @@ export class FlashCardPage {
         <div class="function-container">
           <div class="header">
             <button id="homeBtn" class="home-button" title="Go to Home">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
               </svg>
@@ -327,10 +379,11 @@ export class FlashCardPage {
             <div class="card" id="flashcard">
               <div class="card-front">
                 <h2 id="word">Word</h2>
+                <div id="starsContainer" class="stars-container"></div>
               </div>
               <div class="card-back">
-                  <h2 id="definition" class="definition">Definition</h2>
-                  <p id="example" class="example">Example Sentence</p>
+                <h2 id="definition" class="definition">Definition</h2>
+                <p id="example" class="example">Example Sentence</p>
               </div>
             </div>
           </div>
