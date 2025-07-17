@@ -275,14 +275,25 @@ export class FlashCardPage {
 
       const prevLearningBtn = document.getElementById('prevLearningBtn') as HTMLButtonElement;
       const nextLearningBtn = document.getElementById('nextLearningBtn') as HTMLButtonElement;
+      const starFilterSelect = document.getElementById('starFilterSelect') as HTMLSelectElement;
+
+      let getStarFilter = () => {
+        if (!starFilterSelect) return undefined;
+        const val = starFilterSelect.value;
+        return val ? Number(val) : undefined;
+      };
 
       if (prevLearningBtn!.dataset.eventListenerAdded !== 'true') {
         prevLearningBtn.dataset.eventListenerAdded = 'true';
         resourceManager.registerEventListener(prevLearningBtn, 'click', () => {
           let newIndex = currentIndex;
+          const starFilter = getStarFilter();
           while (newIndex > 0) {
             newIndex--;
-            if (vocabulary[newIndex].status === 'learning') {
+            if (
+              vocabulary[newIndex].status === 'learning' &&
+              (starFilter === undefined || vocabulary[newIndex].stars === starFilter)
+            ) {
               currentIndex = newIndex;
               this.updateCard();
               break;
@@ -295,9 +306,13 @@ export class FlashCardPage {
         nextLearningBtn.dataset.eventListenerAdded = 'true';
         resourceManager.registerEventListener(nextLearningBtn, 'click', () => {
           let newIndex = currentIndex;
+          const starFilter = getStarFilter();
           while (newIndex < vocabulary.length - 1) {
             newIndex++;
-            if (vocabulary[newIndex].status === 'learning') {
+            if (
+              vocabulary[newIndex].status === 'learning' &&
+              (starFilter === undefined || vocabulary[newIndex].stars === starFilter)
+            ) {
               currentIndex = newIndex;
               this.updateCard();
               break;
@@ -393,8 +408,20 @@ export class FlashCardPage {
             <button id="nextBtn" class="control-button">Next</button>
           </div>
           <div class="learning-navigation">
-            <button id="prevLearningBtn" class="learning-nav-button"><< Learning</button>
-            <button id="nextLearningBtn" class="learning-nav-button">Learning >></button>
+            <button id="prevLearningBtn" class="learning-nav-button stylish-nav">
+              <span class="arrow">&#x25C0;&#x25C0;</span> <span>Learning</span>
+            </button>
+            <select id="starFilterSelect" class="star-filter-select" title="Filter by stars">
+              <option value="">All Stars</option>
+              <option value="1">1 Star</option>
+              <option value="2">2 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="5">5 Stars</option>
+            </select>
+            <button id="nextLearningBtn" class="learning-nav-button stylish-nav">
+              <span>Learning</span> <span class="arrow">&#x25B6;&#x25B6;</span>
+            </button>
           </div>
           <div class="review-controls">
             <button id="markKnown" class="review-button">Known</button>
