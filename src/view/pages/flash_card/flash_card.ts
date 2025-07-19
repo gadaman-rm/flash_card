@@ -354,11 +354,27 @@ export class FlashCardPage {
         if (target.classList.contains('star')) {
           const starValue = Number(target.getAttribute('data-star'));
           if (!isNaN(starValue)) {
-            vocabulary[currentIndex].stars = starValue;
+            // If clicking on the same star that's already filled, remove all stars
+            if (vocabulary[currentIndex].stars === starValue) {
+              vocabulary[currentIndex].stars = 0;
+            } else {
+              vocabulary[currentIndex].stars = starValue;
+            }
             this.updateCard();
             await this.saveStatusToCSV();
           }
         }
+      });
+    }
+
+    // Add clear stars button event listener
+    const clearStarsBtn = document.getElementById('clearStarsBtn') as HTMLButtonElement;
+    if (clearStarsBtn && clearStarsBtn.dataset.eventListenerAdded !== 'true') {
+      clearStarsBtn.dataset.eventListenerAdded = 'true';
+      resourceManager.registerEventListener(clearStarsBtn, 'click', async () => {
+        vocabulary[currentIndex].stars = 0;
+        this.updateCard();
+        await this.saveStatusToCSV();
       });
     }
   }
@@ -425,6 +441,7 @@ export class FlashCardPage {
           </div>
           <div class="review-controls">
             <button id="markKnown" class="review-button">Known</button>
+            <button id="clearStarsBtn" class="review-button" title="Clear stars">Clear Stars</button>
             <button id="markLearning" class="review-button">Learning</button>
           </div>
           <div class="go-to-card">
