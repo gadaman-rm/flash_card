@@ -403,24 +403,24 @@ export class FlashCardPage {
             </div>
           </div>
           <div class="controls">
-            <button id="prevBtn" class="control-button">Previous</button>
+            <button id="prevBtn" class="control-button">Prev</button>
             <button id="flipBtn" class="control-button">Flip</button>
             <button id="nextBtn" class="control-button">Next</button>
           </div>
           <div class="learning-navigation">
             <button id="prevLearningBtn" class="learning-nav-button stylish-nav">
-              <span class="arrow">&#x25C0;&#x25C0;</span> <span>Prev</span>
+              <span class="arrow">&#x25C0;&#x25C0;</span>
             </button>
             <select id="starFilterSelect" class="star-filter-select" title="Filter by stars">
-              <option value="">All Stars</option>
-              <option value="1">1 Star</option>
-              <option value="2">2 Stars</option>
-              <option value="3">3 Stars</option>
-              <option value="4">4 Stars</option>
-              <option value="5">5 Stars</option>
+              <option value="">?★</option>
+              <option value="1">1★</option>
+              <option value="2">2★</option>
+              <option value="3">3★</option>
+              <option value="4">4★</option>
+              <option value="5">5★</option>
             </select>
             <button id="nextLearningBtn" class="learning-nav-button stylish-nav">
-              <span>Next</span> <span class="arrow">&#x25B6;&#x25B6;</span>
+              <span class="arrow">&#x25B6;&#x25B6;</span>
             </button>
           </div>
           <div class="review-controls">

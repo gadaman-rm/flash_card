@@ -151,7 +151,6 @@
     border: none;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
     transition: background 0.3s, transform 0.2s;
     position: relative;
     z-index: 1;
@@ -170,14 +169,16 @@
   .star-filter-select {
     border: 2px solid #f7b42c;
     border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
     background: #fffbe6;
     color: #2c3e50;
-    margin: 0 0.5rem;
     outline: none;
     transition: border 0.2s, box-shadow 0.2s;
     box-shadow: 0 1px 4px rgba(247, 180, 44, 0.08);
+    text-align: center;
+    option {
+      text-align: center;
+    }
     &:focus {
       border-color: #fc575e;
       box-shadow: 0 0 0 2px #fc575e33;
