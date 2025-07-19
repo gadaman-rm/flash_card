@@ -440,9 +440,20 @@ export class FlashCardPage {
             </button>
           </div>
           <div class="review-controls">
-            <button id="markKnown" class="review-button">Known</button>
-            <button id="clearStarsBtn" class="review-button" title="Clear stars">Clear Stars</button>
-            <button id="markLearning" class="review-button">Learning</button>
+            <button id="markKnown" class="review-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="button-icon">
+<path d="M4.89163 13.2687L9.16582 17.5427L18.7085 8" stroke="#f3f0f0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+              
+            </button>
+            <button id="clearStarsBtn" class="review-button" title="Clear stars">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#f3f0f0" class="button-icon" viewBox="0 0 32 32"><path d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"/></svg>
+            </button>
+            <button id="markLearning" class="review-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="button-icon">
+<path d="M6 12H18M12 6V18" stroke="#f3f0f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+            </button>
           </div>
           <div class="go-to-card">
             <input type="number" id="cardNumberInput" min="1" placeholder="Card #" />

@@ -83,6 +83,7 @@
     }
   }
 
+
   .base-button {
     padding: 0.8rem 1.5rem;
     border: none;
@@ -348,5 +349,24 @@
     100% {
       transform: scale(1);
     }
+  }
+}
+
+// Button icon styling
+.review-button {
+  .button-icon {
+    margin-right: 8px;
+    vertical-align: middle;
+    transition: transform 0.2s ease;
+    width: 32px;
+    height: 32px;
+  }
+
+  &:hover .button-icon {
+    transform: scale(1.1);
+  }
+
+  &.marked .button-icon {
+    transform: scale(1.1);
   }
 }
