@@ -178,7 +178,7 @@ export class FlashCardPage {
     markLearningBtn.classList.toggle('marked', vocab.status === 'learning');
   }
 
-  setup() {}
+  setup() { }
 
   addEventListener() {
     const flashcard = document.getElementById('flashcard') as HTMLElement;
@@ -356,7 +356,7 @@ export class FlashCardPage {
           if (!isNaN(starValue)) {
             vocabulary[currentIndex].stars = starValue;
             this.updateCard();
-            //await this.saveStatusToCSV();
+            await this.saveStatusToCSV();
           }
         }
       });
@@ -409,7 +409,7 @@ export class FlashCardPage {
           </div>
           <div class="learning-navigation">
             <button id="prevLearningBtn" class="learning-nav-button stylish-nav">
-              <span class="arrow">&#x25C0;&#x25C0;</span> <span>Learning</span>
+              <span class="arrow">&#x25C0;&#x25C0;</span> <span>Prev</span>
             </button>
             <select id="starFilterSelect" class="star-filter-select" title="Filter by stars">
               <option value="">All Stars</option>
@@ -420,7 +420,7 @@ export class FlashCardPage {
               <option value="5">5 Stars</option>
             </select>
             <button id="nextLearningBtn" class="learning-nav-button stylish-nav">
-              <span>Learning</span> <span class="arrow">&#x25B6;&#x25B6;</span>
+              <span>Next</span> <span class="arrow">&#x25B6;&#x25B6;</span>
             </button>
           </div>
           <div class="review-controls">
